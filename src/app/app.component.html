@@ -1,0 +1,20 @@
+<select name="level" id="level" [(ngModel)]="currentLevel">
+  <option *ngFor="let level of levels; let i = index;" value="{{i}}">{{level.title}}</option>
+</select>
+<button (click)="startGame();">Start</button>
+<div class="time">Time: {{time | date:'mm:ss'}}</div>
+<hr>
+<div class="field" *ngIf="field">
+  <div class="line" *ngFor="let line of field.getLines();">
+    <div class="cell"
+         *ngFor="let cell of line.getCells();"
+         [class.opened]="cell.isOpened"
+         [class.marked]="cell.isMarked"
+         [class.mined]="cell.isOpened && cell.isMined"
+         (click)="checkCell(cell)"
+         (contextmenu)="markCell(cell, $event)"
+    >
+      {{cell.isOpened ? (cell.getValue() !== false ? (cell.getValue() > 0 ? cell.getValue() : '&nbsp;') : '*') : (cell.isMarked ? '&#10004;' : '&nbsp;')}}
+    </div>
+  </div>
+</div>

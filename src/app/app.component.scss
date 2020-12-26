@@ -1,0 +1,44 @@
+.field {
+  .line {
+    &:last-of-type {
+      .cell {
+        border-bottom: 1px solid var(--cell-border);
+      }
+    }
+
+    .cell {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      text-align: center;
+      padding: 5px;
+      border-left: 1px solid var(--cell-border);
+      border-top: 1px solid var(--cell-border);
+      width: var(--cell-size);
+      height: var(--cell-size);
+      display: inline-block;
+      box-sizing: border-box;
+      background: lightgray;
+      cursor: pointer;
+      font: bold 15px Arial;
+
+      &:hover {
+        opacity: 0.6;
+      }
+
+      &.opened {
+        background: white;
+        cursor: help;
+      }
+
+      &:last-of-type {
+        border-right: 1px solid var(--cell-border);
+      }
+
+      &.marked, &.mined {
+        color: red;
+      }
+    }
+  }
+}
