@@ -20,15 +20,19 @@ export class AppComponent {
   minesSetCount: number;
   currentLevel: number = 0;
   levels: any[] = [
-    {width: 8, height: 8, mines: 10, title: 'Easy'},
+    {width: 8,  height: 8, mines: 10, title: 'Easy'},
     {width: 16, height: 16, mines: 40, title: 'Normal'},
     {width: 30, height: 16, mines: 99, title: 'Hard'},
   ];
   startTime: number;
-  time;//: number = 0;
+  time: number;
+  isPaused: boolean;
 
   constructor() {
     this.startGame();
+    setInterval(() => {
+      if (!this.gameOver && !this.isPaused) this.time++;
+    }, 1000);
   }
 
   startGame() {
@@ -36,10 +40,8 @@ export class AppComponent {
     this.width = this.levels[this.currentLevel].width;
     this.height = this.levels[this.currentLevel].height;
     this.minesSetCount = this.levels[this.currentLevel].mines;
-    this.startTime = Date.now();
-    setInterval(() => {
-      if (!this.gameOver) this.time = new Date(Date.now() - this.startTime);
-    }, 1000);
+    this.isPaused = false;
+    this.time = 0;
     this.initGame();
   }
 
@@ -189,7 +191,7 @@ export class AppComponent {
         this.gameOver = true;
         this.field.getLines().map((line: ILine) => {
           line.getCells().map((cell: ICell) => {
-            if (cell.isMined) cell.open();
+            if (cell.isMined && !cell.isMarked) cell.open();
           });
         });
       } else if (cell.value === 0) {
@@ -223,5 +225,9 @@ export class AppComponent {
     }
 
     return false;
+  }
+
+  togglePause() {
+    this.isPaused = !this.isPaused;
   }
 }

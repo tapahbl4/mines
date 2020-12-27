@@ -2,7 +2,8 @@
   <option *ngFor="let level of levels; let i = index;" value="{{i}}">{{level.title}}</option>
 </select>
 <button (click)="startGame();">Start</button>
-<div class="time">Time: {{time | date:'mm:ss'}}</div>
+<button (click)="togglePause();">Pause</button>
+<div class="time">Time: {{time / 60 | number: '1.0-0'}}:{{time % 60 | number: '2.0-0'}}</div>
 <hr>
 <div class="field" *ngIf="field">
   <div class="line" *ngFor="let line of field.getLines();">
@@ -15,6 +16,14 @@
          (contextmenu)="markCell(cell, $event)"
     >
       {{cell.isOpened ? (cell.getValue() !== false ? (cell.getValue() > 0 ? cell.getValue() : '&nbsp;') : '*') : (cell.isMarked ? '&#10004;' : '&nbsp;')}}
+    </div>
+  </div>
+</div>
+<div class="modal__background" *ngIf="isPaused">
+  <div class="modal">
+    <div class="modal-title">Title</div>
+    <div *ngIf="isPaused">
+      Pause<br><button (click)="togglePause();">Resume</button>
     </div>
   </div>
 </div>
