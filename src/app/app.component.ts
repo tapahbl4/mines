@@ -27,6 +27,7 @@ export class AppComponent {
   startTime: number;
   time: number;
   isPaused: boolean;
+  isWinner: boolean;
 
   constructor() {
     this.startGame();
@@ -41,6 +42,7 @@ export class AppComponent {
     this.height = this.levels[this.currentLevel].height;
     this.minesSetCount = this.levels[this.currentLevel].mines;
     this.isPaused = false;
+    this.isWinner = false;
     this.time = 0;
     this.initGame();
   }
@@ -214,6 +216,7 @@ export class AppComponent {
         });
       });
       if (won) {
+        this.isWinner = true;
         this.field.getLines().map((line: ILine) => {
           line.getCells().map((cell: ICell) => {
             if (!cell.isOpened && !cell.isMined && !cell.isMarked) cell.open();
@@ -229,5 +232,9 @@ export class AppComponent {
 
   togglePause() {
     this.isPaused = !this.isPaused;
+  }
+
+  dummy() {
+    return false;
   }
 }

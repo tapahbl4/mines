@@ -4,10 +4,11 @@
 <button (click)="startGame();">Start</button>
 <button (click)="togglePause();">Pause</button>
 <div class="time">Time: {{time / 60 | number: '1.0-0'}}:{{time % 60 | number: '2.0-0'}}</div>
+<div>Mines: {{minesSetCount - markedCount}}</div>
 <hr>
-<div class="field" *ngIf="field">
+<div class="field" *ngIf="field" (contextmenu)="dummy();">
   <div class="line" *ngFor="let line of field.getLines();">
-    <div class="cell"
+    <div class="cell value-{{cell.value}}"
          *ngFor="let cell of line.getCells();"
          [class.opened]="cell.isOpened"
          [class.marked]="cell.isMarked"
@@ -19,11 +20,19 @@
     </div>
   </div>
 </div>
-<div class="modal__background" *ngIf="isPaused">
-  <div class="modal">
-    <div class="modal-title">Title</div>
-    <div *ngIf="isPaused">
-      Pause<br><button (click)="togglePause();">Resume</button>
-    </div>
+<div class="modal__background" *ngIf="isPaused || gameOver">
+  <div class="modal" *ngIf="isPaused">
+    <div class="modal-title">Pause</div>
+    <p><button (click)="togglePause();">Resume</button></p>
+  </div>
+  <div class="modal" *ngIf="gameOver && !isWinner">
+    <div class="modal-title">Game over</div>
+    <p>Your score is {{markedCount}} mines</p>
+    <button (click)="destroyGame(); startGame();">Restart</button>
+  </div>
+  <div class="modal" *ngIf="gameOver && isWinner">
+    <div class="modal-title">You won</div>
+    <p>Your score is {{time / 60 | number: '1.0-0'}}:{{time % 60 | number: '2.0-0'}} on {{levels[currentLevel].title}} level</p>
+    <button (click)="destroyGame(); startGame();">Restart</button>
   </div>
 </div>

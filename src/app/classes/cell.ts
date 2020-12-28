@@ -14,8 +14,8 @@ export class Cell implements ICell {
     this.isMined = isMined;
     this.value = 0;
     this.isMarked = false;
-    this.isOpened = false; // DEBUG
-    // this.isOpened = true; // PROD
+    this.isOpened = false; // PROD
+    // this.isOpened = true; // DEBUG
   }
 
   open(): boolean {
