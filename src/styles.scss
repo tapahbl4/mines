@@ -2,4 +2,10 @@
   font-family: Arial, serif;
   --cell-size: 30px;
   --cell-border: silver;
+
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
 }

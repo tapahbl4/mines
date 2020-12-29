@@ -1,11 +1,20 @@
-<select name="level" id="level" [(ngModel)]="currentLevel">
-  <option *ngFor="let level of levels; let i = index;" value="{{i}}">{{level.title}}</option>
-</select>
-<button (click)="startGame();">Start</button>
-<button (click)="togglePause();">Pause</button>
-<div class="time">Time: {{time / 60 | number: '1.0-0'}}:{{time % 60 | number: '2.0-0'}}</div>
-<div>Mines: {{minesSetCount - markedCount}}</div>
-<hr>
+<div class="control">
+  <div class="control__full">
+    <select name="level" id="level" [(ngModel)]="currentLevel">
+      <option *ngFor="let level of levels; let i = index;" value="{{i}}">{{level.title}}</option>
+    </select>
+    <button (click)="startGame();">Start</button>
+    <button (click)="togglePause();">Pause</button>
+  </div>
+  <div class="control__full">
+    <div class="control__left">
+      <div class="time">Time: {{time / 60 | number: '1.0-0'}}:{{time % 60 | number: '2.0-0'}}</div>
+    </div>
+    <div class="control__right">
+      <div>Mines: {{minesSetCount - markedCount}}</div>
+    </div>
+  </div>
+</div>
 <div class="field" *ngIf="field" (contextmenu)="dummy();">
   <div class="line" *ngFor="let line of field.getLines();">
     <div class="cell value-{{cell.value}}"
