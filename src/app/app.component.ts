@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {IField} from "./interfaces/ifield";
 import {Field} from "./classes/field";
 import {Line} from "./classes/line";
@@ -28,9 +28,12 @@ export class AppComponent {
   time: number;
   isPaused: boolean;
   isWinner: boolean;
+  markButton: boolean;
+  mainScreen: boolean;
 
   constructor() {
-    this.startGame();
+    this.markButton = false;
+    this.mainScreen = true;
     setInterval(() => {
       if (!this.gameOver && !this.isPaused) this.time++;
     }, 1000);
@@ -38,6 +41,7 @@ export class AppComponent {
 
   startGame() {
     this.destroyGame();
+    this.mainScreen = false;
     this.width = this.levels[this.currentLevel].width;
     this.height = this.levels[this.currentLevel].height;
     this.minesSetCount = this.levels[this.currentLevel].mines;
@@ -48,7 +52,6 @@ export class AppComponent {
   }
 
   initGame() {
-    console.clear();
     this.gameOver = false;
     this.markedCount = 0;
     this.field = new Field(this.width, this.height);
@@ -110,6 +113,10 @@ export class AppComponent {
   }
 
   checkCell(cell: ICell): void {
+    if (this.markButton) {
+      this.markCell(cell, null);
+      return;
+    }
     let x = cell.x, y = cell.y;
     if (cell.isMarked || this.gameOver) return;
     if (cell.isOpened) {
@@ -189,7 +196,6 @@ export class AppComponent {
     } else {
       cell.open();
       if (cell.isMined) {
-        console.log('Game over');
         this.gameOver = true;
         this.field.getLines().map((line: ILine) => {
           line.getCells().map((cell: ICell) => {
@@ -222,7 +228,6 @@ export class AppComponent {
             if (!cell.isOpened && !cell.isMined && !cell.isMarked) cell.open();
           });
         });
-        console.log('You won!');
         this.gameOver = true;
       }
     }
