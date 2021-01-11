@@ -202,3 +202,11 @@
     font-weight: bold;
   }
 }
+
+button {
+  padding: 3px 8px;
+
+  & + button {
+    margin-left: 5px;
+  }
+}
